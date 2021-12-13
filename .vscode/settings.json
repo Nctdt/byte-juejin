@@ -1,3 +1,11 @@
 {
-  "css.customData": ["./.vscode/tailwindRule.json"]
+  "css.customData": ["./.vscode/tailwindRule.json"],
+  "cSpell.words": [
+    "digg",
+    "followee",
+    "isfollowed",
+    "replys",
+    "rtime",
+    "shortmsg"
+  ]
 }
