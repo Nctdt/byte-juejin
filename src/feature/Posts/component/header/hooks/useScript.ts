@@ -1,12 +1,10 @@
-import { useRecoilState, useRecoilValue } from 'recoil'
-
-import { Category } from '../../../../../api'
-import { useClearSideEffect } from '../../../hooks/useClearSideEffect'
+import { Category } from '@/api'
+import { useRecoilValue, useRecoilState } from 'recoil'
 import {
   domainCategoryState,
+  subdomainCategoryState,
   selectDomainIdState,
   selectSubdomainIdState,
-  subdomainCategoryState,
 } from '../store/category'
 
 export const useScript = () => {

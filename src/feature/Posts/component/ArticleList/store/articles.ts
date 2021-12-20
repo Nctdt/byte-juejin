@@ -1,8 +1,8 @@
-import { atom, selector, selectorFamily } from 'recoil'
+import { atom, selector } from 'recoil'
 
-import { Article, getArticles } from '../../../../../api'
-import { localStorageEffect } from '../../../../../effects/localStorageEffect'
-import { delay } from '../../../../../utils/delay'
+import { Article, getArticles } from '@/api'
+import { localStorageEffect } from '@/effects/localStorageEffect'
+import { delay } from '@/utils/delay'
 import { categoryIdState } from '../../Header/store/category'
 import { sortTabsState } from '../../SortTab/store/sortTab'
 
@@ -45,7 +45,6 @@ export const getArticlesState = selector({
     const sortBy = get(sortTabsState)
     const offset = get(articlesOffsetState)
     const categoryId = get(categoryIdState)
-    console.log('noCache', sortBy, offset, categoryId)
     if (sortBy === 'history') {
       return get(getHistoryArticlesState)
     } else {

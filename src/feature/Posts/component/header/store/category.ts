@@ -1,5 +1,5 @@
+import { CategoriesData, getCategories } from '@/api'
 import { atom, selector } from 'recoil'
-import { CategoriesData, getCategories } from '../../../../../api'
 
 export const domainCategoryState = atom<CategoriesData['categories']>({
   key: 'domainCategory',

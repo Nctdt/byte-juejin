@@ -1,8 +1,10 @@
 import { UserInfo } from './user'
 
-export type Res<T extends Record<string, unknown>> =
+export type Res<T extends Record<string, unknown> = {}> =
   | ({ code: 0 } & T)
   | { code: 404; error_message: string }
+
+export type GetResSuccess<T extends Res> = T extends { code: 0 } ? T : never
 
 export function getCategories(): Promise<CategoriesResponse>
 interface CategoryBase {
@@ -89,19 +91,19 @@ export type ArticleResponse = Res<{ data: { article: Article } }>
 
 export function getCommentsByArticleId(
   articleId: string,
-  offset: number,
-  limit: number,
+  offset?: number,
+  limit?: number,
 ): Promise<CommentsResponse>
 export type CommentsResponse = Res<{
   data: CommentsData
   total: number
-  show_more: boolean
+  has_more: boolean
 }>
 interface CommentsData {
   articleId: string
   comments: Comment[]
 }
-interface Comment {
+export interface Comment {
   comment_id: string
   comment_info: CommentInfo
   user_info: UserInfo

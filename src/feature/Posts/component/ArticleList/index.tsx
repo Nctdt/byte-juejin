@@ -1,12 +1,3 @@
-import { IconComment, IconThumbUpStroked } from '@douyinfe/semi-icons'
-import { Spin } from '@douyinfe/semi-ui'
-import { FC } from 'react'
-import dayjs from 'dayjs'
-
-import { Article } from '../../../../api'
-import { useScript } from './hooks/useScript'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import { historyArticlesState } from './store/articles'
 // .article_info.rtime 时间
 //  .title 标题
 //  .brief_content 简介
@@ -16,6 +7,16 @@ import { historyArticlesState } from './store/articles'
 // .tags 标签
 // .author_user_info.user_name 用户名
 
+import { Article } from '@/api'
+import { FC } from 'react'
+import { useRecoilState } from 'recoil'
+import { useScript } from './hooks/useScript'
+import { historyArticlesState } from './store/articles'
+import dayjs from 'dayjs'
+import { IconThumbUpStroked, IconComment } from '@douyinfe/semi-icons'
+import { Spin } from '@douyinfe/semi-ui'
+import { useNavigate } from 'react-router-dom'
+
 const Cart: FC<{ article: Article }> = ({ article }) => {
   const { article_info, author_user_info, category_info } = article
   const now = dayjs()
@@ -24,7 +25,6 @@ const Cart: FC<{ article: Article }> = ({ article }) => {
   const [historyArticles, setHistoryArticles] =
     useRecoilState(historyArticlesState)
   const handleClick = () => {
-    console.log('historyArticles: ', historyArticles)
     let idx = historyArticles.findIndex(
       a => a.article_id === article.article_id,
     )
@@ -36,6 +36,7 @@ const Cart: FC<{ article: Article }> = ({ article }) => {
       })
     }
     setHistoryArticles(v => [article, ...v])
+    window.open(`/post/${article.article_id}`)
   }
   return (
     <div className="mx-4 my-2 border-b-2 border-gray-200 text-sm">
@@ -74,7 +75,6 @@ const Cart: FC<{ article: Article }> = ({ article }) => {
           </div>
         </div>
         <div className="flex items-center text-gray-500">
-          {}
           <div className="py-.5 px-2 ml-2 bg-gray-50">
             {category_info.first_category_name}
           </div>
@@ -89,7 +89,6 @@ const Cart: FC<{ article: Article }> = ({ article }) => {
 
 export const ArticleList: FC = () => {
   const { list, loading } = useScript()
-  console.log('list: ', list)
   return (
     <div>
       {list.map((article, i) => (

@@ -1,8 +1,8 @@
+import { PlacehodlerFixed } from '@/component/PlacehodlerFixed'
 import classNames from 'classnames'
-import { FC, useRef } from 'react'
-import { PlacehodlerFixed } from '../../../../component/PlacehodlerFixed'
-import { sortTabsKV } from './store/sortTab'
+import { FC } from 'react'
 import { useScript } from './hooks/useScript'
+import { sortTabsKV } from './store/sortTab'
 
 const styles = {
   sortTab: classNames(

@@ -1,5 +1,4 @@
-import React, { useRef } from 'react'
-import { FC, RefObject, useEffect, useState } from 'react'
+import React, { RefObject, FC, useState, useEffect, useRef } from 'react'
 
 interface Props {
   target: RefObject<HTMLElement>

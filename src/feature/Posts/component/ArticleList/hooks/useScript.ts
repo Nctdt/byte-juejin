@@ -1,19 +1,18 @@
 import { useEffect } from 'react'
-import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil'
-import {
-  articlesOffsetState,
-  articlesState,
-  getArticlesState,
-} from '../store/articles'
+import { useRecoilValue, useRecoilState, useRecoilValueLoadable } from 'recoil'
 import { categoryIdState } from '../../Header/store/category'
 import { sortTabsState } from '../../SortTab/store/sortTab'
+import {
+  articlesState,
+  articlesOffsetState,
+  getArticlesState,
+} from '../store/articles'
 
 export const useScript = () => {
   const sortBy = useRecoilValue(sortTabsState)
   const categoryId = useRecoilValue(categoryIdState)
   const [list, setList] = useRecoilState(articlesState)
   const [offset, setOffset] = useRecoilState(articlesOffsetState)
-  console.log('categoryId: ', categoryId)
   const articlesLoadable = useRecoilValueLoadable(getArticlesState)
   if (articlesLoadable.state === 'hasError') throw articlesLoadable.contents
   useEffect(() => {

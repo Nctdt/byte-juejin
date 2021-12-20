@@ -1,8 +1,7 @@
+import { PlacehodlerFixed } from '@/component/PlacehodlerFixed'
 import { FC } from 'react'
-
-import { styles } from './index.style'
-import { PlacehodlerFixed } from '../../../../component/PlacehodlerFixed'
 import { useScript } from './hooks/useScript'
+import { styles } from './index.style'
 
 export const Header: FC = () => {
   const {
