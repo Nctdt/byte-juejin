@@ -7,7 +7,6 @@ import { useScript } from './hooks/useScript'
 export const PostComment: FC = ({}) => {
   const { comments, handleClick } = useScript()
   const { data, total, hasMore } = comments
-  console.log('comments: ', comments)
   return (
     <div className="mt-6 bg-white p-4">
       <div>

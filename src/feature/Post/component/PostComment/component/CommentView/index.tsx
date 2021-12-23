@@ -61,7 +61,6 @@ export const CommentView: FC<Props> = props => {
   const { user_info, content, ctime, digg_count, reply_count } =
     adapterProps(props)
   const timeText = findTimeText(ctime)
-  console.log(user_info.user_name)
   return (
     <div
       className={`flex text-sm w-full${props.type === 'reply' ? '' : ' my-1'}`}>
@@ -105,17 +104,17 @@ export const CommentView: FC<Props> = props => {
             {reply_count || '回复'}
           </div>
         </div>
-        {/* {props.type === 'comment' && props.comment.reply_infos.length > 0 && (
-            <div className="bg-gray-50 rounded-sm p-4 w-full">
-              {props.comment.reply_infos.map(replyInfo => (
-                <CommentView
-                  key={replyInfo.reply_id}
-                  type="reply"
-                  comment={replyInfo}
-                />
-              ))}
-            </div>
-          )} */}
+        {props.type === 'comment' && props.comment.reply_infos.length > 0 && (
+          <div className="bg-gray-50 rounded-sm p-4 w-full">
+            {props.comment.reply_infos.map(replyInfo => (
+              <CommentView
+                key={replyInfo.reply_id}
+                type="reply"
+                comment={replyInfo}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

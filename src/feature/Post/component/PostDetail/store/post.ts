@@ -7,7 +7,6 @@ export const getPostState = selectorFamily({
   get:
     ({ postId }: { postId: string }) =>
     async () => {
-      console.log('postId', postId)
       const articleResponse = await getArticleById(postId)
       if (articleResponse.code === 404) throw articleResponse.error_message
       return articleResponse.data.article
