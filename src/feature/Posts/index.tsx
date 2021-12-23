@@ -5,10 +5,10 @@ import { SortTab } from './component/SortTab'
 import { useClearSideEffect } from './hooks/useClearSideEffect'
 
 export const Posts: FC = () => {
-  useClearSideEffect()
+  const { showHeader } = useClearSideEffect()
   return (
     <>
-      <Header />
+      {showHeader && <Header />}
       <ArticleList />
       <SortTab />
     </>

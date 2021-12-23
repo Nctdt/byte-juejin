@@ -24,20 +24,6 @@ export const historyArticlesState = atom<Article[]>({
   effects_UNSTABLE: [localStorageEffect('historyArticles')],
 })
 
-export const getHistoryArticlesState = selector({
-  key: 'getHistoryArticles',
-  async get({ get }) {
-    const historyArticles = get(historyArticlesState)
-    const categoryId = get(categoryIdState)
-    return categoryId === 0
-      ? historyArticles
-      : historyArticles.filter(
-          ({ category_info: { first_category_id, second_category_id } }) =>
-            [first_category_id, second_category_id].includes(categoryId),
-        )
-  },
-})
-
 export const getArticlesState = selector({
   key: 'getArticles',
   async get({ get }) {
@@ -46,7 +32,7 @@ export const getArticlesState = selector({
     const offset = get(articlesOffsetState)
     const categoryId = get(categoryIdState)
     if (sortBy === 'history') {
-      return get(getHistoryArticlesState)
+      return get(historyArticlesState)
     } else {
       const articlesResponse = await getArticles(
         categoryId,
