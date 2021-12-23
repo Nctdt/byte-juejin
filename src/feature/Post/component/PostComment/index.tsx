@@ -16,7 +16,7 @@ export const PostComment: FC = ({}) => {
           <CommentInput />
         </div>
         <div className="mb-4 font-bold text-lg">全部评论 {total}</div>
-        <div>
+        <div className="flex flex-col">
           {data.map(comment => (
             <CommentView
               type="comment"

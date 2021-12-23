@@ -61,29 +61,38 @@ export const CommentView: FC<Props> = props => {
   const { user_info, content, ctime, digg_count, reply_count } =
     adapterProps(props)
   const timeText = findTimeText(ctime)
+  console.log(user_info.user_name)
   return (
-    <div className={`flex text-sm ${props.type === 'reply' ? '' : 'my-2'}`}>
-      <img
-        className="w-10 h-10 rounded-full mr-2"
-        src={user_info.avatar_large}
-        alt=""
-      />
-      <div className="w-full">
-        <div className="flex h-10 items-center">
-          <div className="whitespace-nowrap">{user_info.user_name}</div>
+    <div
+      className={`flex text-sm w-full${props.type === 'reply' ? '' : ' my-1'}`}>
+      <div className="w-10 flex-shrink-0 mr-2">
+        <img
+          className="w-10 h-10 rounded-full"
+          src={user_info.avatar_large}
+          alt=""
+        />
+      </div>
+      <div className="w-[calc(100%-2.5rem)] flex-1">
+        <div className="flex h-10 items-center ">
+          <div
+            className={`whitespace-nowrap truncate mr-1${
+              user_info.job_title ? '' : ' flex-1'
+            }`}>
+            {user_info.user_name}
+          </div>
           {user_info.level !== 0 && (
-            <div className="flex items-center ml-1 mr-2">
+            <div className="flex items-center mr-2">
               <div className="bg-blue-300 text-white font-bold rounded-sm text-xs px-1">
                 Lv{user_info.level}
               </div>
             </div>
           )}
           {user_info.job_title && (
-            <div className="text-gray-400 whitespace-nowrap truncate">
+            <div className="text-gray-400 flex-1 whitespace-nowrap truncate">
               {user_info.job_title}
             </div>
           )}
-          <div className="text-gray-400 ml-auto ">{timeText}</div>
+          <div className="text-gray-400">{timeText}</div>
         </div>
         <div className="mb-2">{content}</div>
         <div className="flex text-gray-400 mb-2">
@@ -96,17 +105,17 @@ export const CommentView: FC<Props> = props => {
             {reply_count || '回复'}
           </div>
         </div>
-        {props.type === 'comment' && props.comment.reply_infos.length > 0 && (
-          <div className="bg-gray-50 rounded-sm p-4">
-            {props.comment.reply_infos.map(replyInfo => (
-              <CommentView
-                key={replyInfo.reply_id}
-                type="reply"
-                comment={replyInfo}
-              />
-            ))}
-          </div>
-        )}
+        {/* {props.type === 'comment' && props.comment.reply_infos.length > 0 && (
+            <div className="bg-gray-50 rounded-sm p-4 w-full">
+              {props.comment.reply_infos.map(replyInfo => (
+                <CommentView
+                  key={replyInfo.reply_id}
+                  type="reply"
+                  comment={replyInfo}
+                />
+              ))}
+            </div>
+          )} */}
       </div>
     </div>
   )
