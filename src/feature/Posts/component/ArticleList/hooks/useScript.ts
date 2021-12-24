@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import { useRecoilValue, useRecoilState, useRecoilValueLoadable } from 'recoil'
 import { categoryIdState } from '../../Header/store/category'
-import { sortTabsState } from '../../SortTab/store/sortTab'
+import { sortTabs, sortTabsState } from '../../SortTab/store/sortTab'
 import {
   articlesState,
   articlesOffsetState,
   getArticlesState,
+  afterLookArticlesState,
 } from '../store/articles'
-import { managerHistoryState } from '../store/history'
 
 export const useScript = () => {
   const sortBy = useRecoilValue(sortTabsState)

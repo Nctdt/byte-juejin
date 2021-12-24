@@ -4,10 +4,10 @@ import { FC } from 'react'
 import { Article } from '@/api'
 import { Cart } from './Cart'
 
-export const List: FC<{ list: Article[]; loading: boolean }> = ({
-  list,
-  loading,
-}) => {
+export const List: FC<{
+  list: Article[]
+  loading: boolean
+}> = ({ list, loading }) => {
   return (
     <>
       {list.map((article, i) => (

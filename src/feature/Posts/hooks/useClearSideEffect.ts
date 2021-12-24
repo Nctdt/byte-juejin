@@ -9,7 +9,7 @@ import {
   selectDomainIdState,
   selectSubdomainIdState,
 } from '../component/Header/store/category'
-import { sortTabsState } from '../component/SortTab/store/sortTab'
+import { sortTabs, sortTabsState } from '../component/SortTab/store/sortTab'
 
 export const useClearSideEffect = () => {
   const domainId = useRecoilValue(selectDomainIdState)
@@ -33,8 +33,8 @@ export const useClearSideEffect = () => {
   )
   useEffect(() => {
     resetListState()
-    if (sortBy === 'history') sortByHistoryHandle()
+    if (!sortTabs[sortBy].showHeader) sortByHistoryHandle()
     window.scrollTo({ top: 0 })
   }, [domainId, subdomainId, sortBy])
-  return { showHeader: sortBy !== 'history' }
+  return { showHeader: sortTabs[sortBy].showHeader }
 }

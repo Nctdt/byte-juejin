@@ -18,7 +18,7 @@ export const SortTab: FC = () => {
   return (
     <PlacehodlerFixed>
       <div className="h-12 fixed bottom-0 bg-white w-screen flex justify-around">
-        {sortTabsKV.map(([k, text]) => (
+        {sortTabsKV.map(([k, { text }]) => (
           <div
             key={k}
             className={styles.sortTabItem(k === sortBy)}

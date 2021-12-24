@@ -1,37 +1,34 @@
 import { IconThumbUpStroked, IconComment } from '@douyinfe/semi-icons'
 import dayjs from 'dayjs'
 import { FC } from 'react'
-import { useRecoilState } from 'recoil'
+import { useRecoilCallback, useRecoilValue } from 'recoil'
 
 import { Article } from '@/api'
-import { historyArticlesState } from '../store/articles'
+import { historyArticlesState, inAfterLookArticles } from '../store/articles'
+import { getRtime } from '@/utils/getRtime'
+import { rmDuplicateAdd } from '../utils/rmDuplicateAdd'
 
 export const Cart: FC<{ article: Article }> = ({ article }) => {
   const { article_info, author_user_info, category_info } = article
   const now = dayjs()
-  const realTime = dayjs(+(article_info.rtime + '000'))
+  const realTime = dayjs(getRtime(article_info.rtime))
   const diffDays = now.diff(realTime, 'days')
-  const [historyArticles, setHistoryArticles] =
-    useRecoilState(historyArticlesState)
-  const handleClick = () => {
-    let idx = historyArticles.findIndex(
-      a => a.article_id === article.article_id,
-    )
-    if (idx !== -1) {
-      setHistoryArticles(v => {
-        const arr = [...v]
-        arr.splice(idx, 1)
-        return arr
-      })
-    }
-    setHistoryArticles(v => [article, ...v])
-    window.open(`/post/${article.article_id}`)
-  }
+
+  const handleClick = useRecoilCallback(
+    ({ set }) =>
+      () => {
+        set(historyArticlesState, v =>
+          rmDuplicateAdd(v, article, a => a.article_id === article.article_id),
+        )
+        window.open(`/post/${article.article_id}`)
+      },
+    [],
+  )
   return (
     <div
       className="mx-4 my-2 border-b-2 border-gray-200 text-sm"
       onClick={handleClick}>
-      <div className="flex my-2">
+      <div className="flex mb-2">
         <div className="text-gray-600">{author_user_info.user_name}</div>
         <div
           style={{ width: 1 }}
@@ -39,8 +36,8 @@ export const Cart: FC<{ article: Article }> = ({ article }) => {
         />
         <div className="text-gray-400">{diffDays}天前</div>
       </div>
-      <div className="my-2 font-bold text-xl">{article_info.title}</div>
-      <div className="flex h-24 my-2">
+      <div className="mb-2 font-bold text-xl">{article_info.title}</div>
+      <div className="flex h-24 mb-2">
         <div className="overflow-hidden overflow-ellipsis flex-1">
           {article_info.brief_content}
         </div>
@@ -52,7 +49,7 @@ export const Cart: FC<{ article: Article }> = ({ article }) => {
           />
         )}
       </div>
-      <div className="text-gray-400 flex justify-between my-2">
+      <div className="text-gray-400 flex justify-between mb-1">
         <div className="flex">
           <div className="flex items-center mr-8">
             <IconThumbUpStroked className="mr-1" />

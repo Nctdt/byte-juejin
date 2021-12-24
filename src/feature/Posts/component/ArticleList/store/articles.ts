@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil'
+import { atom, selector, selectorFamily } from 'recoil'
 
 import { Article, getArticles } from '@/api'
 import { localStorageEffect } from '@/effects/localStorageEffect'
@@ -24,6 +24,30 @@ export const historyArticlesState = atom<Article[]>({
   effects_UNSTABLE: [localStorageEffect('historyArticles')],
 })
 
+export const afterLookArticlesState = atom<Article[]>({
+  key: 'afterLookArticles',
+  default: [],
+  effects_UNSTABLE: [localStorageEffect('afterLookArticles')],
+})
+
+export const afterLookArticlesIdSetState = selector({
+  key: 'afterLookArticlesIdSet',
+  get({ get }) {
+    const afterLookArticles = get(afterLookArticlesState)
+    return new Set(afterLookArticles.map(({ article_id }) => article_id))
+  },
+})
+
+export const inAfterLookArticles = selectorFamily({
+  key: 'inAfterLookArticles',
+  get:
+    (id: string) =>
+    ({ get }) => {
+      const afterLookArticlesIdSet = get(afterLookArticlesIdSetState)
+      return afterLookArticlesIdSet.has(id)
+    },
+})
+
 export const getArticlesState = selector({
   key: 'getArticles',
   async get({ get }) {
@@ -33,6 +57,8 @@ export const getArticlesState = selector({
     const categoryId = get(categoryIdState)
     if (sortBy === 'history') {
       return get(historyArticlesState)
+    } else if (sortBy === 'afterLook') {
+      return get(afterLookArticlesState)
     } else {
       const articlesResponse = await getArticles(
         categoryId,

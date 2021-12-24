@@ -1,14 +1,24 @@
 import { atom } from 'recoil'
 
-export const sortTabs = {
-  hot: '热门',
-  new: '最新',
-  history: '历史',
-}
-export type SortTabsKey = keyof typeof sortTabs
-export const sortTabsKV = Object.entries(sortTabs) as [SortTabsKey, string][]
+export type SortTabs = 'hot' | 'new' | 'history' | 'afterLook'
 
-export const sortTabsState = atom<SortTabsKey>({
+export type SortTabConfig = {
+  text: string
+  showHeader: boolean
+  showAddLookAfter: boolean
+}
+export const sortTabs: Record<SortTabs, SortTabConfig> = {
+  hot: { text: '热门', showHeader: true, showAddLookAfter: true },
+  new: { text: '最新', showHeader: true, showAddLookAfter: true },
+  history: { text: '历史', showHeader: false, showAddLookAfter: false },
+  afterLook: { text: '稍后再看', showHeader: false, showAddLookAfter: false },
+}
+export const sortTabsKV = Object.entries(sortTabs) as [
+  SortTabs,
+  SortTabConfig,
+][]
+
+export const sortTabsState = atom<SortTabs>({
   key: 'sortTabs',
   default: 'hot',
 })
