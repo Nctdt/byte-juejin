@@ -1,4 +1,4 @@
-import { atom } from 'recoil'
+import { atom, selector, selectorFamily } from 'recoil'
 
 export type SortTabs = 'hot' | 'new' | 'history' | 'afterLook'
 
@@ -21,4 +21,14 @@ export const sortTabsKV = Object.entries(sortTabs) as [
 export const sortTabsState = atom<SortTabs>({
   key: 'sortTabs',
   default: 'hot',
+})
+export const currentTabState = selectorFamily({
+  key: 'currentTab',
+  get:
+    (k: keyof SortTabConfig) =>
+    ({ get }) => {
+      const sortBy = get(sortTabsState)
+      const curr = sortTabs[sortBy]
+      return curr[k]
+    },
 })

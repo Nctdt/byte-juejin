@@ -7,6 +7,7 @@ import {
   articlesOffsetState,
   getArticlesState,
   afterLookArticlesState,
+  articlesStateMap,
 } from '../store/articles'
 
 export const useScript = () => {
@@ -15,7 +16,7 @@ export const useScript = () => {
   const [list, setList] = useRecoilState(articlesState)
   const [offset, setOffset] = useRecoilState(articlesOffsetState)
   const articlesLoadable = useRecoilValueLoadable(getArticlesState)
-
+  console.log(list, articlesLoadable)
   useEffect(() => {
     const listener: EventListener = () => {
       const el = document.documentElement
@@ -43,6 +44,6 @@ export const useScript = () => {
   return {
     list,
     loading: articlesLoadable.state === 'loading',
-    isHistory: sortBy === 'history',
+    articlesState: articlesStateMap[sortBy] ?? null,
   }
 }

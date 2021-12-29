@@ -30,6 +30,11 @@ export const afterLookArticlesState = atom<Article[]>({
   effects_UNSTABLE: [localStorageEffect('afterLookArticles')],
 })
 
+export const articlesStateMap: Record<string, typeof historyArticlesState> = {
+  history: historyArticlesState,
+  afterLook: afterLookArticlesState,
+}
+
 export const afterLookArticlesIdSetState = selector({
   key: 'afterLookArticlesIdSet',
   get({ get }) {
@@ -71,4 +76,14 @@ export const getArticlesState = selector({
       return articlesResponse.data.articles
     }
   },
+})
+
+export const isManagerState = atom({
+  key: 'isManager',
+  default: false,
+})
+
+export const managerSelectState = atom<string[]>({
+  key: 'managerSelect',
+  default: [],
 })

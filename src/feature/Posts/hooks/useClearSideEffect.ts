@@ -4,26 +4,29 @@ import { useRecoilCallback, useRecoilValue } from 'recoil'
 import {
   articlesState,
   articlesOffsetState,
+  isManagerState,
 } from '../component/ArticleList/store/articles'
 import {
   selectDomainIdState,
   selectSubdomainIdState,
 } from '../component/Header/store/category'
-import { sortTabs, sortTabsState } from '../component/SortTab/store/sortTab'
+import {
+  currentTabState,
+  sortTabs,
+  sortTabsState,
+} from '../component/SortTab/store/sortTab'
 
 export const useClearSideEffect = () => {
-  const domainId = useRecoilValue(selectDomainIdState)
-  const subdomainId = useRecoilValue(selectSubdomainIdState)
-  const sortBy = useRecoilValue(sortTabsState)
   const resetListState = useRecoilCallback(
     ({ reset }) =>
       () => {
         reset(articlesState)
         reset(articlesOffsetState)
+        reset(isManagerState)
       },
     [],
   )
-  const sortByHistoryHandle = useRecoilCallback(
+  const clearSortByEffect = useRecoilCallback(
     ({ reset }) =>
       () => {
         reset(selectDomainIdState)
@@ -31,10 +34,15 @@ export const useClearSideEffect = () => {
       },
     [],
   )
+
+  const domainId = useRecoilValue(selectDomainIdState)
+  const subdomainId = useRecoilValue(selectSubdomainIdState)
+  const sortBy = useRecoilValue(sortTabsState)
+  const showHeader = useRecoilValue(currentTabState('showHeader'))
   useEffect(() => {
     resetListState()
-    if (!sortTabs[sortBy].showHeader) sortByHistoryHandle()
+    if (!showHeader) clearSortByEffect()
     window.scrollTo({ top: 0 })
   }, [domainId, subdomainId, sortBy])
-  return { showHeader: sortTabs[sortBy].showHeader }
+  return { showHeader }
 }

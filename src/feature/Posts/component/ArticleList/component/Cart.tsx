@@ -4,15 +4,25 @@ import { FC } from 'react'
 import { useRecoilCallback, useRecoilValue } from 'recoil'
 
 import { Article } from '@/api'
-import { historyArticlesState, inAfterLookArticles } from '../store/articles'
+import {
+  afterLookArticlesState,
+  historyArticlesState,
+  inAfterLookArticles,
+} from '../store/articles'
 import { getRtime } from '@/utils/getRtime'
 import { rmDuplicateAdd } from '../utils/rmDuplicateAdd'
+import { currentTabState } from '../../SortTab/store/sortTab'
 
-export const Cart: FC<{ article: Article }> = ({ article }) => {
-  const { article_info, author_user_info, category_info } = article
+const useScript = (article: Article) => {
+  const { article_info } = article
   const now = dayjs()
   const realTime = dayjs(getRtime(article_info.rtime))
   const diffDays = now.diff(realTime, 'days')
+
+  const showAddAfterLook = useRecoilValue(currentTabState('showAddLookAfter'))
+  const inAfterLook = useRecoilValue(
+    inAfterLookArticles(article_info.article_id),
+  )
 
   const handleClick = useRecoilCallback(
     ({ set }) =>
@@ -24,6 +34,35 @@ export const Cart: FC<{ article: Article }> = ({ article }) => {
       },
     [],
   )
+  const afterLookHandleClick = useRecoilCallback(({ set }) => () => {
+    set(afterLookArticlesState, v => {
+      const idx = v.findIndex(a => a.article_id === article.article_id)
+      const cpArr = [...v]
+      if (idx !== -1) {
+        cpArr.splice(idx, 1)
+        return cpArr
+      }
+      return [article, ...v]
+    })
+  })
+  return {
+    diffDays,
+    inAfterLook,
+    showAddAfterLook,
+    handleClick,
+    afterLookHandleClick,
+  }
+}
+
+export const Cart: FC<{ article: Article }> = ({ article }) => {
+  const { article_info, author_user_info, category_info } = article
+  const {
+    diffDays,
+    inAfterLook,
+    showAddAfterLook,
+    handleClick,
+    afterLookHandleClick,
+  } = useScript(article)
   return (
     <div
       className="mx-4 my-2 border-b-2 border-gray-200 text-sm"
@@ -69,6 +108,16 @@ export const Cart: FC<{ article: Article }> = ({ article }) => {
           </div>
         </div>
       </div>
+      {showAddAfterLook && (
+        <div
+          className="mb-2"
+          onClick={ev => {
+            ev.stopPropagation()
+            afterLookHandleClick()
+          }}>
+          {inAfterLook ? '从稍后再看中移除' : '添加至稍后再看'}
+        </div>
+      )}
     </div>
   )
 }
