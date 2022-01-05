@@ -4,10 +4,10 @@ import { List } from './component/List'
 import { Manager } from './component/Manager'
 
 export const ArticleList: FC = () => {
-  const { list, loading, articlesState } = useScript()
+  const { list, loading, currEditArticlesState } = useScript()
   return (
     <div>
-      {articlesState && <Manager state={articlesState} />}
+      {currEditArticlesState && <Manager state={currEditArticlesState} />}
       <List list={list} loading={loading} />
     </div>
   )

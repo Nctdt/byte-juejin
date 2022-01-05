@@ -18,13 +18,13 @@ export const List: FC<{
     <>
       <CheckboxGroup onChange={v => setMangerSelect(v)}>
         {list.map((article, i) => (
-          <div className="flex">
+          <div className="flex" key={article.article_id + i}>
             {isManager && (
               <div className="flex items-center">
                 <Checkbox className="ml-1" value={article.article_id} />
               </div>
             )}
-            <Cart key={article.article_id + i} article={article} />
+            <Cart article={article} />
           </div>
         ))}
       </CheckboxGroup>
