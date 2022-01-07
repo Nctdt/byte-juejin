@@ -57,13 +57,12 @@ export const CommentInput: FC = () => {
       />
       {actived && (
         <div className="flex justify-end mt-2">
-          <Button
-            theme="solid"
-            className="p-5 rounded-md font-normal"
+          <button
+            className="px-4 py-2 rounded-md font-normal bg-blue-600 text-white text-xs "
             disabled={isEmpty}
             onClick={handleSubmit}>
             发表评论
-          </Button>
+          </button>
         </div>
       )}
     </>
