@@ -13,7 +13,6 @@ export const List: FC<{
 }> = ({ list, loading }) => {
   const isManager = useRecoilValue(isManagerState)
   const setMangerSelect = useSetRecoilState(managerSelectState)
-  console.log('isManager: ', isManager)
   return (
     <>
       <CheckboxGroup onChange={v => setMangerSelect(v)}>

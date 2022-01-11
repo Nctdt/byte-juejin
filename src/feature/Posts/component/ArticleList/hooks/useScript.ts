@@ -19,18 +19,11 @@ export const useScript = () => {
 
   useEffect(() => {
     const listener: EventListener = () => {
-      const { scrollTop, scrollHeight, clientHeight } = document.documentElement
-      console.log(
-        scrollTop,
-        clientHeight,
-        scrollHeight,
-        scrollTop + clientHeight >= scrollHeight,
-      )
-      console.log(window.innerHeight, document.body.scrollTop)
-      if (
-        scrollTop + clientHeight + 100 >= scrollHeight &&
-        !currEditArticlesState
-      ) {
+      const showHeight = window.innerHeight
+      const scrollTop =
+        document.body.scrollTop || document.documentElement.scrollTop
+      const { scrollHeight: allHeight } = document.documentElement
+      if (scrollTop + showHeight >= allHeight && !currEditArticlesState) {
         setOffset(offset => offset + 10)
       }
     }

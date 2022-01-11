@@ -12,7 +12,6 @@ import {
 } from '../component/Header/store/category'
 import {
   currentTabState,
-  sortTabs,
   sortTabsState,
 } from '../component/SortTab/store/sortTab'
 
